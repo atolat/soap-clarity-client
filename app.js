@@ -2,7 +2,7 @@ var request = require("request");
 var parseString = require('xml2js').parseString;
 
 //SOAP WS Request
-var options = {
+var options_soap = {
     method: 'POST',
     url: 'http://ppmcontent.excers.com/niku/xog',
     headers: {
@@ -12,7 +12,7 @@ var options = {
     body: '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:quer="http://www.niku.com/xog/Query">\r\n   <soapenv:Header>\r\n      <quer:Auth>\r\n         <quer:Username>excers</quer:Username>\r\n         <quer:Password>niku2000</quer:Password>\r\n      </quer:Auth>\r\n   </soapenv:Header>\r\n   <soapenv:Body>\r\n      <quer:Query>\r\n         <quer:Code>help_test</quer:Code>\r\n         <quer:Filter>\r\n            <quer:id>5046001</quer:id>\r\n         </quer:Filter>\r\n      </quer:Query>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>\r\n'
 };
 
-request(options, function(error, response, body) {
+request(options_soap, function(error, response, body) {
     if (error) throw new Error(error);
     parseString(body, function(err, result) {
         console.log(result["soapenv:Envelope"]["soapenv:Body"][0]["QueryResult"][0]["Records"][0]["Record"][0]["stage_code"][0]);
@@ -21,7 +21,7 @@ request(options, function(error, response, body) {
 
 
 //REST Request
-var options1 = {
+var options_rest = {
     method: 'GET',
     url: 'http://ppmcontent.excers.com/ppm/rest/v1/projects/5046001',
     headers: {
@@ -30,7 +30,7 @@ var options1 = {
     }
 };
 
-request(options1, function(error, response, body) {
+request(options_rest, function(error, response, body) {
     if (error) throw new Error(error);
 
     console.log(body);
